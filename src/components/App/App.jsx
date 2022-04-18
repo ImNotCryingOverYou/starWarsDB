@@ -3,7 +3,6 @@ import Header from '../Header/Header';
 import RandomPlanet from '../RandomPlanet/RandomPlanet';
 import ErrorBoundry from '../ErrorBoundry/ErrorBoundry';
 import SwapiService from '../../services/swapi-service';
-import DummySwapiService from '../../services/dummy-swapi-service';
 
 import PeoplePage from '../Pages/PeoplePage';
 import PlanetsPage from '../Pages/PlanetsPage';
@@ -31,17 +30,6 @@ export default class App extends Component {
     this.setState({ isLoggedIn: true })
   }
 
-  onServiceChange = () => {
-    this.setState(({ swapiService }) => {
-      const Service = swapiService instanceof SwapiService ?
-        DummySwapiService : SwapiService;
-      return {
-        swapiService: new Service()
-      };
-    })
-  };
-
-
 
   render() {
 
@@ -54,7 +42,6 @@ export default class App extends Component {
             <div className="stardb-app">
               <Header onServiceChange={this.onServiceChange} />
               <RandomPlanet />
-
               <Switch>
                 <Route path="/" render={() => <h2>Welcome to Star DB</h2>} exact={true} />
                 <Route path="/people/:id?" component={PeoplePage} />
@@ -73,11 +60,8 @@ export default class App extends Component {
                   path="/secret"
                   render={() => <SecretPage isLoggedIn={isLoggedIn} />}
                 />
-
                 <Redirect to="/" />
               </Switch>
-
-
             </div>
           </Router>
         </SwapiServiceProvider>
